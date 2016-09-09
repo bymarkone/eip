@@ -9,4 +9,6 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter:1.4.0.RELEASE'
     compile 'org.springframework.boot:spring-boot-starter-web:1.4.0.RELEASE'
     compile 'org.springframework.boot:spring-boot-starter-integration:1.4.0.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-test:1.4.0.RELEASE'
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.16.10'
 }
