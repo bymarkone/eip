@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/integration"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/integration
+			http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+    <gateway id="projectSimulator"
+             service-interface="com.thoughtworks.eip.ProjectSimulator"
+             default-request-channel="startProjectChannel"/>
+
+    <chain input-channel="startProjectChannel" output-channel="startDevelopmentChannel">
+        <service-activator ref="engageClient" />
+        <service-activator ref="buildTeam" />
+        <service-activator ref="doInception" />
+    </chain>
+    
+    <chain input-channel="startProjectChannel" output-channel="collectFeedback">
+        <splitter ref="breakStories"/>
+        <service-activator ref="develop" />
+        <service-activator ref="release" />
+        <aggregator ref="buildShowcase"/>
+    </chain>
+
+    <<router input-channel="processArrangement" expression="payload.currentItemName">
+
+        </router>
+
+    <!--<gateway id="paymentProcessor"-->
+    <!--service-interface="com.ifood.ipp.core.domain.payment.PaymentProcessor"-->
+    <!--default-request-channel="prepareArrangement"-->
+    <!--error-channel="errorChannel"/>-->
+
+    <!--<chain input-channel="prepareArrangement" output-channel="prepareItems">-->
+    <!--<service-activator ref="findConfiguration"/>-->
+    <!--<service-activator ref="loadArrangementsAndMetadata"/>-->
+    <!--<service-activator ref="selectArrangement"/>-->
+    <!--</chain>-->
+
+    <!--<service-activator input-channel="recordState" output-channel="decideWhatIsNext" ref="stateRecorder" />-->
+
+    <!--<router input-channel="processArrangement" expression="payload.currentItemName">-->
+    <!--<mapping value="ANTI_FRAUD_IFOOD" channel="antiFraudIFoodChannel"/>-->
+    <!--<mapping value="CLEAR_SALE" channel="clearSaleChannel"/>-->
+    <!--<mapping value="MUNDIPAGG" channel="mundipaggChannel"/>-->
+    <!--<mapping value="PAGARME" channel="pagarmeChannel"/>-->
+    <!--<mapping value="MOCKGATEWAY" channel="mockGatewayChannel"/>-->
+    <!--<mapping value="NO_ITEM" channel="finalizeChannel"/>-->
+    <!--</router>-->
+
+    <!--<exception-type-router input-channel="errorChannel" default-output-channel="defaultExceptionHandlingChannel" >-->
+    <!--<mapping exception-type="com.ifood.ipp.core.domain.payment.PaymentConfigurationException"-->
+    <!--channel="paymentConfigurationExceptionHandlingChannel" />-->
+    <!--<mapping exception-type="com.ifood.ipp.core.domain.payment.PaymentFlowException"-->
+    <!--channel="paymentFlowExceptionHandlingChannel" />-->
+    <!--</exception-type-router>-->
+
+</beans:beans>
